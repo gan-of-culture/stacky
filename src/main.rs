@@ -1,9 +1,8 @@
 use clap::Parser;
 use clap::{arg, command};
 use std::fs::{self, DirEntry};
-use std::io::Stdout;
-use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
+use std::path::PathBuf;
+use std::process::Command;
 
 /// Simple program add subtitles to video files. Create two directories one with the subtitles and one containing the video files.
 /// Make sure that both directories only contain the specified files and no other.
@@ -60,7 +59,14 @@ fn main() {
         if file.path().is_dir() {
             continue;
         }
-        if file.file_name().to_str().unwrap().ends_with("_merged") {
+        if file
+            .path()
+            .file_stem()
+            .unwrap()
+            .to_str()
+            .unwrap()
+            .ends_with("_merged")
+        {
             continue;
         }
         filtered_target_files.push(file);
